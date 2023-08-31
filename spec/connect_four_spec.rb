@@ -250,11 +250,19 @@ describe ConnectFour do
     end
   end
 
-  describe '#display_board' do
-    it 'displays the current game board'
-  end
-
   describe '#reset' do
-    it 'resets the game board for a new game'
+    it 'resets the game board to start a new game' do
+      game = ConnectFour.new
+      # Make some moves to change the game state
+      game.drop_piece(0, 'X')
+      game.drop_piece(1, 'O')
+      # Reset the game
+      game.reset
+      # Check if the board is reset to its initial state
+      expected_board = Array.new(6) { Array.new(7, ' ') }
+      expect(game.instance_variable_get(:@board)).to eq(expected_board)
+      # Check if the current player is reset to 'X'
+      expect(game.instance_variable_get(:@current_player)).to eq('X')
+    end
   end
 end

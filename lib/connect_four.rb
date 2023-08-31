@@ -114,27 +114,27 @@ class ConnectFour
     if win?(player)
       return true
     end
-  
     # If there's no win, check for a draw
     if draw?
       return true
     end
-  
     # If neither win nor draw condition is met, and it's not the current player's turn, the game is over
     if @current_player != player
       return true
+
     end
-  
     false # The game is not over
   end
-  
-  
 
   def display_board
-    # Displays the current game board
+    puts '  0 1 2 3 4 5 6'
+    @board.each_with_index do |row, index|
+      puts "#{index} #{row.join('_')}"
+    end
   end
 
   def reset
-    # Resets the game board for a new game
+    @board = Array.new(6) { Array.new(7, ' ') }
+    @current_player = 'X'
   end
 end
