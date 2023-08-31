@@ -7,11 +7,24 @@ class ConnectFour
   end
 
   def drop_piece(column, player)
-    # Places a player's piece in the specified column
+    return unless valid_move?(column)
+
+    row = 5
+    row -= 1 while row >= 0 && @board[row][column] != ' '
+    @board[row][column] = player
+    switch_player
   end
 
   def valid_move?(column)
-    # Checks if a move in the specified column is valid (i.e., the column is not full)
+    return false if column.negative? || column > 6
+
+    @board[0][column] == ' '
+  end
+
+  private
+
+  def switch_player
+    @current_player = @current_player == 'X' ? 'O' : 'X'
   end
 
   def win?(player)
