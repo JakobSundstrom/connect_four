@@ -105,8 +105,10 @@ class ConnectFour
   end
 
   def draw?
-    # Checks if the game is a draw (no more valid moves)
+    # Check if the top row of the board has any empty spaces
+    @board[0].none? { |piece| piece == ' ' }
   end
+  
 
   def game_over?
     # Checks if the game is over (either a win or a draw)

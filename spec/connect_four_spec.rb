@@ -188,7 +188,38 @@ describe ConnectFour do
   end
 
   describe '#draw?' do
-    it 'checks if the game is a draw (no more valid moves)'
+    context 'when the game is not a draw' do
+      before(:each) do
+        @game = ConnectFour.new
+      end
+
+      it 'returns false when there are valid moves left' do
+        expect(@game.draw?).to be false
+      end
+
+      it 'returns false when there are some valid moves left' do
+        # Fill all but one column
+        6.times do |row|
+          @game.instance_variable_get(:@board)[row][0..5] = ['X', 'O', 'X', 'O', 'X', 'O']
+        end
+
+        expect(@game.draw?).to be false
+      end
+    end
+
+    context 'when the game is a draw' do
+      before(:each) do
+        @game = ConnectFour.new
+        # Fill the entire board
+        6.times do |row|
+          @game.instance_variable_get(:@board)[row] = ['X', 'O', 'X', 'O', 'X', 'O', 'X']
+        end
+      end
+
+      it 'returns true when there are no valid moves left' do
+        expect(@game.draw?).to be true
+      end
+    end
   end
 
   describe '#game_over?' do
