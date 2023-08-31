@@ -5,30 +5,7 @@
 # It includes methods for initializing the game, dropping pieces into the
 # board, checking for wins, draws, and game over conditions, displaying the
 # current board, and resetting the game.
-#
-# Example usage:
-#
-#   game = ConnectFour.new
-#   game.display_board
-#
-#   until game.game_over?
-#     puts "Player #{game.current_player}'s turn"
-#     column = gets.chomp.to_i
-#     if game.valid_move?(column)
-#       game.drop_piece(column)
-#       game.display_board
-#     else
-#       puts "Invalid move! Try again."
-#     end
-#   end
-#
-#   if game.win?('X')
-#     puts "Player X wins!"
-#   elsif game.win?('O')
-#     puts "Player O wins!"
-#   else
-#     puts "It's a draw!"
-#   end
+
 class ConnectFour
   attr_reader :board, :current_player
 
@@ -110,26 +87,18 @@ class ConnectFour
   end
 
   def game_over?(player)
-    # Check for a win first
-    if win?(player)
-      return true
-    end
-    # If there's no win, check for a draw
-    if draw?
-      return true
-    end
-    # If neither win nor draw condition is met, and it's not the current player's turn, the game is over
-    if @current_player != player
-      return true
+    return true if win?(player)
+    # Check for a draw (no valid moves left)
+    return true if draw?
 
-    end
     false # The game is not over
   end
 
   def display_board
-    puts '  0 1 2 3 4 5 6'
+    puts "  0 1 2 3 4 5 6"
     @board.each_with_index do |row, index|
-      puts "#{index} #{row.join('_')}"
+      display_row = row.map { |cell| cell == ' ' ? '_' : cell }
+      puts "#{index} #{display_row.join(' ')}"
     end
   end
 
@@ -137,4 +106,33 @@ class ConnectFour
     @board = Array.new(6) { Array.new(7, ' ') }
     @current_player = 'X'
   end
+
+  def play
+    display_board
+    until game_over?(@current_player)
+      puts "Player #{@current_player}'s turn. Enter column (0-6) to drop your piece:"
+      column = gets.chomp.to_i
+
+      if valid_move?(column)
+        drop_piece(column, @current_player)
+        display_board
+        if win?('X')
+          puts 'Player X wins!'
+          break
+        elsif win?('O')
+          puts 'Player O wins!'
+          break
+        elsif draw?
+          puts "It's a draw!"
+          break
+        end
+      else
+        puts 'Invalid move! Please choose a valid column.'
+      end
+    end
+  end
 end
+
+# game = ConnectFour.new
+# game.play
+
