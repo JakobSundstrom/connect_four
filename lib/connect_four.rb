@@ -52,14 +52,56 @@ class ConnectFour
     @board[0][column] == ' '
   end
 
-  private
-
   def switch_player
     @current_player = @current_player == 'X' ? 'O' : 'X'
   end
 
   def win?(player)
-    # Checks if the specified player has won the game
+    return true if horizontal_win?(player) || vertical_win?(player) || diagonal_win?(player)
+
+    false # No win condition found
+  end
+
+  def horizontal_win?(player)
+    6.times do |row|
+      4.times do |col|
+        return true if (0..3).all? { |i| @board[row][col + i] == player }
+      end
+    end
+    false
+  end
+
+  def vertical_win?(player)
+    7.times do |col|
+      3.times do |row|
+        return true if (0..3).all? { |i| @board[row + i][col] == player }
+      end
+    end
+    false
+  end
+
+  def diagonal_win?(player)
+    return true if diagonal_win_left_to_right?(player) || diagonal_win_right_to_left?(player)
+
+    false
+  end
+
+  def diagonal_win_left_to_right?(player)
+    3.times do |row|
+      4.times do |col|
+        return true if (0..3).all? { |i| @board[row + i][col + i] == player }
+      end
+    end
+    false
+  end
+
+  def diagonal_win_right_to_left?(player)
+    3.times do |row|
+      3.upto(6) do |col|
+        return true if (0..3).all? { |i| @board[row + i][col - i] == player }
+      end
+    end
+    false
   end
 
   def draw?

@@ -115,10 +115,76 @@ describe ConnectFour do
       end
     end
   end
-  
 
   describe '#win?' do
-    it 'checks if the specified player has won the game'
+    context 'when a player has won horizontally' do
+      before(:each) do
+        @game = ConnectFour.new
+      end
+      it 'returns true if a player has four consecutive pieces in a row' do
+        player = @game.instance_variable_get(:@current_player)
+        4.times do |column|
+          @game.drop_piece(column, player)
+        end
+
+        expect(@game.win?(player)).to be true
+      end
+      it 'returns false if a player has less than four consecutive pieces in a row' do
+        player = @game.instance_variable_get(:@current_player)
+        3.times do |column|
+          @game.drop_piece(column, player)
+        end
+        expect(@game.win?(player)).to be false
+      end
+    end
+    context 'when a player has won vertically' do
+      before(:each) do
+        @game = ConnectFour.new
+      end
+      it 'returns true if a player has four consecutive pieces in a column' do
+        player = @game.instance_variable_get(:@current_player)
+        4.times do
+          @game.drop_piece(3, player)
+        end
+        expect(@game.win?(player)).to be true
+      end
+      it 'returns false if a player has less than four consecutive pieces in a column' do
+        player = @game.instance_variable_get(:@current_player)
+        3.times do
+          @game.drop_piece(3, player)
+        end
+        expect(@game.win?(player)).to be false
+      end
+    end
+    context 'when a player has won diagonally' do
+      before(:each) do
+        @game = ConnectFour.new
+      end
+      it 'returns true if a player has four consecutive pieces diagonally' do
+        player = @game.instance_variable_get(:@current_player)
+        # Simulate a diagonal win
+        @game.drop_piece(0, player)
+        @game.drop_piece(1, player)
+        @game.drop_piece(1, player)
+        @game.drop_piece(2, player)
+        @game.drop_piece(2, player)
+        @game.drop_piece(2, player)
+        @game.drop_piece(3, player)
+        @game.drop_piece(3, player)
+        @game.drop_piece(3, player)
+        @game.drop_piece(3, player)
+        expect(@game.win?(player)).to be true
+      end
+      it 'returns false if a player has less than four consecutive pieces diagonally' do
+        player = @game.instance_variable_get(:@current_player)
+        # Simulate a diagonal with less than four pieces
+        @game.drop_piece(0, player)
+        @game.drop_piece(1, player)
+        @game.drop_piece(1, player)
+        @game.drop_piece(2, player)
+        expect(@game.win?(player)).to be false
+      end
+    end
   end
 
   describe '#draw?' do
