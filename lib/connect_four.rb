@@ -1,3 +1,34 @@
+# frozen_string_literal: true
+
+# ConnectFour represents a game of Connect Four.
+#
+# It includes methods for initializing the game, dropping pieces into the
+# board, checking for wins, draws, and game over conditions, displaying the
+# current board, and resetting the game.
+#
+# Example usage:
+#
+#   game = ConnectFour.new
+#   game.display_board
+#
+#   until game.game_over?
+#     puts "Player #{game.current_player}'s turn"
+#     column = gets.chomp.to_i
+#     if game.valid_move?(column)
+#       game.drop_piece(column)
+#       game.display_board
+#     else
+#       puts "Invalid move! Try again."
+#     end
+#   end
+#
+#   if game.win?('X')
+#     puts "Player X wins!"
+#   elsif game.win?('O')
+#     puts "Player O wins!"
+#   else
+#     puts "It's a draw!"
+#   end
 class ConnectFour
   attr_reader :board, :current_player
 
