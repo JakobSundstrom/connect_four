@@ -62,11 +62,60 @@ describe ConnectFour do
       end
     end
   end
-  
 
-  describe '#valid_move?' do
-    it 'checks if a move in the specified column is valid (column not full)'
+  describe "#valid_move?" do
+    context "when the column is empty" do
+      it "returns true" do
+        game = ConnectFour.new
+        expect(game.valid_move?(0)).to be true
+      end
+    end
+  
+    context "when the column is partially filled" do
+      it "returns true for a valid move" do
+        game = ConnectFour.new
+        # Fill the column partially
+        game.drop_piece(0, 'X')
+        game.drop_piece(0, 'O')
+        expect(game.valid_move?(0)).to be true
+      end
+  
+      it "returns false for an invalid move" do
+        game = ConnectFour.new
+        # Fill the column completely
+        game.drop_piece(0, 'X')
+        game.drop_piece(0, 'O')
+        game.drop_piece(0, 'X')
+        game.drop_piece(0, 'O')
+        game.drop_piece(0, 'X')
+        game.drop_piece(0, 'O')
+        expect(game.valid_move?(0)).to be false
+      end
+    end
+  
+    context "when the column is full" do
+      it "returns false" do
+        game = ConnectFour.new
+        # Fill the column completely
+        6.times { game.drop_piece(0, 'X') }
+        expect(game.valid_move?(0)).to be false
+      end
+    end
+  
+    context "when the column index is out of bounds" do
+      it "returns false for negative column index" do
+        game = ConnectFour.new
+        expect(game.valid_move?(-1)).to be false
+      end
+  
+      it "returns false for column index greater than or equal to board width" do
+        game = ConnectFour.new
+        expect(game.valid_move?(7)).to be false
+        expect(game.valid_move?(100)).to be false
+      end
+    end
   end
+  
 
   describe '#win?' do
     it 'checks if the specified player has won the game'
