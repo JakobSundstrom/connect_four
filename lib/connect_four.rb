@@ -1,6 +1,9 @@
 class ConnectFour
+  attr_reader :board, :current_player
+
   def initialize
-    # Initialize the game board and set up the initial game state
+    @board = Array.new(6) { Array.new(7, ' ') }
+    @current_player = 'X'
   end
 
   def drop_piece(column, player)

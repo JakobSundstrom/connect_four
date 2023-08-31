@@ -1,8 +1,27 @@
-require 'rspec'
+require './lib/connect_four.rb'
 
 describe ConnectFour do
   describe '#initialize' do
-    it 'initializes the game board and sets up the initial game state'
+    context 'when a new game is started' do
+      before(:each) do
+        @game = ConnectFour.new
+      end
+
+      it 'initializes an empty game board (6 rows x 7 columns)' do
+        expect(@game.instance_variable_get(:@board)).to eq([
+          [' ', ' ', ' ', ' ', ' ', ' ', ' '],
+          [' ', ' ', ' ', ' ', ' ', ' ', ' '],
+          [' ', ' ', ' ', ' ', ' ', ' ', ' '],
+          [' ', ' ', ' ', ' ', ' ', ' ', ' '],
+          [' ', ' ', ' ', ' ', ' ', ' ', ' '],
+          [' ', ' ', ' ', ' ', ' ', ' ', ' ']
+        ])
+      end
+
+      xit 'initializes the current player (usually "X" or "O")' do
+        expect(@game.instance_variable_get(:@current_player)).to satisfy { |player| player == 'X' || player == 'O' }
+      end
+    end
   end
 
   describe '#drop_piece' do
@@ -33,4 +52,3 @@ describe ConnectFour do
     it 'resets the game board for a new game'
   end
 end
- 
