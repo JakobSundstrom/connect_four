@@ -223,7 +223,31 @@ describe ConnectFour do
   end
 
   describe '#game_over?' do
-    it 'checks if the game is over (either a win or a draw)'
+    context 'when the game is not over' do
+      before(:each) do
+        @game = ConnectFour.new
+      end
+      it 'returns false when there is no win and no draw' do
+        expect(@game.game_over?('X')).to be false
+      end
+    end
+    context 'when the game is over' do
+      before(:each) do
+        @game = ConnectFour.new
+      end
+      it 'returns true when there is a win' do
+        # Simulate a win for 'X'
+        @game.instance_variable_get(:@board)[0][0..3] = ['X', 'X', 'X', 'X']
+        expect(@game.game_over?('X')).to be true
+      end
+      it 'returns true when there is a draw' do
+        # Fill the entire board
+        6.times do |row|
+          @game.instance_variable_get(:@board)[row] = ['X', 'O', 'X', 'O', 'X', 'O', 'X']
+        end
+        expect(@game.game_over?('X')).to be true
+      end
+    end
   end
 
   describe '#display_board' do

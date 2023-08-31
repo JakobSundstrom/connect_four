@@ -108,11 +108,27 @@ class ConnectFour
     # Check if the top row of the board has any empty spaces
     @board[0].none? { |piece| piece == ' ' }
   end
-  
 
-  def game_over?
-    # Checks if the game is over (either a win or a draw)
+  def game_over?(player)
+    # Check for a win first
+    if win?(player)
+      return true
+    end
+  
+    # If there's no win, check for a draw
+    if draw?
+      return true
+    end
+  
+    # If neither win nor draw condition is met, and it's not the current player's turn, the game is over
+    if @current_player != player
+      return true
+    end
+  
+    false # The game is not over
   end
+  
+  
 
   def display_board
     # Displays the current game board
